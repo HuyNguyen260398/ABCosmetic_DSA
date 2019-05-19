@@ -1,0 +1,107 @@
+﻿@model IEnumerable<Product_WebApp.Models.OrderView>
+
+@{
+    ViewBag.Title = "StaffOrder";
+}
+
+<h2>StaffOrder</h2>
+
+@using (Html.BeginForm("StaffOrder", "ViewOrder", FormMethod.Get))
+{
+    <table class="table">
+        <tr>
+            <td>
+                <label>From: </label><input type="date" name="from" id="from" class="form-control" />
+            </td>
+            <td>
+                <label>To: </label><input type="date" name="to" id="to" class="form-control" />
+            </td>
+            <td>
+                <label>Date: </label><input type="date" name="date" id="date" class="form-control" />
+            </td>
+            <td>
+                <input type="submit" value="Search" class="btn btn-info btn-sm" />
+            </td>
+            <td>
+                <a href="@Url.Action("StaffOrder", "ViewOrder", new { name = Session["staff"]}.ToString())" class="btn btn-info btn-sm">Refresh</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Search" class="btn btn-info btn-sm" />
+            </td>
+            <td>
+                <a href="@Url.Action("StaffOrder", "ViewOrder", new { name = Session["staff"]}.ToString())" class="btn btn-info btn-sm">Refresh</a>
+            </td>
+        </tr>
+    </table>
+}
+
+@if (Model.Count() == 0)
+{
+    <h2>There are no orders!</h2>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckoutDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total_Payment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>Details</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckoutDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total_Payment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td><a href="@Url.Action("OrderDetails", "ViewOrder", new { id = item.ID })" class="btn btn-info">Details</a></td>
+            </tr>
+        }
+
+    </table>
+
+    <br />
+    <span><b>Number of Orders: </b>@ViewBag.TotalOrder</span>
+    <br />
+    <span><b>Total Revenue: </b>$ @String.Format("{0:0,0}", ViewBag.TotalRevenue) </span>
+}
+
